@@ -1,0 +1,211 @@
+<html>
+   <head>
+      <title>Mr Test - utenze fresche</title>
+      <link rel="icon" type="image/png" href="favicon.png">
+      <style>
+         html body{
+         font-family: Segoe UI;
+         }
+         .row{
+         width: 99%;
+         height: 25px;
+         padding: 5px;
+         }
+         .row:hover{
+         background-color: #ccc;
+         }			
+         .title{
+         border: solid;
+         margin-bottom: 20px;
+         margin-top: 20px;
+         }
+         .link{
+         display: none;
+         }
+         .icon{
+         width: 20px;
+         height: 20px;
+         display: inline-block;	
+         float: left;				
+         }
+         .label{
+         width: 25%;
+         display: inline-block;
+         margin-left: 10px;
+         text-overflow: ellipsis;
+         white-space: nowrap;	
+         overflow: hidden;				
+         }
+         .value{
+         width: 60%;
+         display: inline-block;
+         cursor: pointer; cursor: hand; 
+         text-overflow: ellipsis;				
+         white-space: nowrap;
+         overflow: hidden;	
+         }
+         .alert {
+            display: none;
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+         }		
+      </style>
+      <script src="jquery-3.2.0.js"></script>
+      <script>
+         function browse(toPage){
+         	var win = window.open(toPage, '_blank');
+         	win.focus();			
+         }
+         
+         function toggle(element){
+         	var children = element.parentElement.getElementsByClassName('link');
+         
+         	// toggle sull'interessato
+         	for(var i = 0; i < children.length; i++){
+         	
+         	   if(children[i].style.display == 'none'){ mostraAccordion(element, children[i]); /*children[i].style.display = 'block';*/ continue;}
+         	   if(children[i].style.display == 'block'){ nascondiAccordion(element, children[i]); /*children[i].style.display = 'none';*/ continue;}
+         	   if(children[i].style.display == ''){ mostraAccordion(element, children[i]); /*children[i].style.display = 'block';*/ continue;}
+         	}				
+         }
+         
+         function mostraAccordion(element, child){
+         	element.style.backgroundColor = '#ccc';
+         	child.style.display = 'block';
+         }
+         
+         function nascondiAccordion(element, child){
+         	element.style.backgroundColor = '';
+         	child.style.display = 'none';
+         }
+         
+         function parseJsonGoldenTopology(){
+         	/*
+         	$.getJSON('http://ibgadmin.intranet.unicredit.it/services/api/gandalf', function(data) {
+         		//data is the JSON string
+         	});	
+         	*/
+         
+         	// Using YQL and JSONP
+         	/*
+         	$.ajax({
+         		url: "http://ibgadmin.intranet.unicredit.it/services/api/gandalf",
+         	 
+         		// The name of the callback parameter, as specified by the YQL service
+         		jsonp: "callback",
+         	 
+         		// Tell jQuery we're expecting JSONP
+         		dataType: "jsonp",
+         	 
+         		// Tell YQL what we want and that we want JSON
+         		data: {
+         			q: "select title,abstract,url from search.news where query=\"cat\"",
+         			format: "json"
+         		},
+         	 
+         		// Work with the response
+         		success: function( response ) {
+         			console.log( response ); // server response
+         		}
+         	});
+         	*/
+         	
+         	$.ajax({
+         	  dataType: "jsonp",
+         	  url: "http://ibgadmin.intranet.unicredit.it/services/api/gandalf",
+         	  data: "",
+         		// Work with the response
+         		success: function( response ) {
+         			console.log( response ); // server response
+         		}
+         	});				
+         
+         	
+         }
+         
+      </script>
+      <script>
+         function copyUser(user) {
+             // Crea un elemento textarea temporaneo
+             var tempTextarea = document.createElement('textarea');
+             tempTextarea.value = user;
+             document.body.appendChild(tempTextarea);
+             
+             // Seleziona il contenuto del textarea
+             tempTextarea.select();
+             tempTextarea.setSelectionRange(0, 99999); // Per dispositivi mobili
+             
+             // Copia il testo negli appunti del sistema
+             document.execCommand('copy');
+             
+             // Rimuovi l'elemento textarea temporaneo
+             document.body.removeChild(tempTextarea);
+             
+             var copyAlert = document.getElementById('copyAlert');
+            copyAlert.style.display = 'block';
+            
+            setTimeout(function() {
+            copyAlert.style.display = 'none';
+            }, 1000);
+            }
+      </script>
+   </head>
+   <body >
+      <div class="group">
+         <div class="row title" onclick="toggle(this)">
+            Test enviroment
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">DE - DEV</div>
+            <div class="label" style="cursor: pointer; color: blue;" onclick="browse(this.innerHTML)" >https://corporateportal.test.unicreditgroup.eu/portal/germany/login</div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">DE - UAT</div>
+            <div class="label" style="cursor: pointer; color: blue;" onclick="browse(this.innerHTML)" >https://corporateportal.uat.unicreditgroup.eu/portal/germany/login</div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">IT - DEV</div>
+            <div class="label" style="cursor: pointer; color: blue;" onclick="browse(this.innerHTML)" >https://corporateportal.test.unicreditgroup.eu/portal/italy/login</div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">IT - UAT</div>
+            <div class="label" style="cursor: pointer; color: blue;" onclick="browse(this.innerHTML)" >https://corporateportal.uat.unicreditgroup.eu/portal/italy/login</div>
+         </div>
+      </div>
+      <div class="group">
+         <div class="row title" onclick="toggle(this)">
+            Premium user
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">DE - DEV</div>
+            <div class="label">Maria Reinhardt - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('1459349319824213')">1459349319824213</span></div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">DE - UAT</div>
+            <div class="label">Maria Grunwald - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('BM2241829876940372')">BM2241829876940372</span></div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">IT - DEV</div>
+            <div class="label" style="font-weight: bold;">USERS</div>
+            <div class="label">F5992438 - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('F5992438')">F5992438</span> PASSWORD - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('Aa222222')">Aa222222</span></div>
+            <div class="label">F3424003 - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('F3424003')">F3424003</span> PASSWORD - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('Aa111111')">Aa111111</span></div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">IT - UAT</div>
+            <div class="label" style="font-weight: bold;">USERS</div>
+            <div class="label">F3836573 - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('F3836573')">F3836573</span> PASSWORD - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('Aa000000')">Aa000000</span></div>
+            <div class="label">F2220516 - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('F2220516')">F2220516</span> PASSWORD - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('Aa000000')">Aa000000</span></div>
+         </div>
+         <div style="display: flex; flex-direction: column; padding: 1rem; width: 100%;">
+            <div class="label" style="font-weight: bold;">OTP</div>
+            <div class="label">OTP - <span class="user" style="cursor: pointer; color: blue;" onclick="copyUser('999999')">999999</span></div>
+         </div>
+      </div>
+   </body>
+</html>
